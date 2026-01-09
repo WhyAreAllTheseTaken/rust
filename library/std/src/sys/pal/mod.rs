@@ -60,6 +60,10 @@ cfg_select! {
         mod zkvm;
         pub use self::zkvm::*;
     }
+    target_os = "kernel" => {
+        mod kernel;
+        pub use self::kernel::*;
+    }
     _ => {
         mod unsupported;
         pub use self::unsupported::*;

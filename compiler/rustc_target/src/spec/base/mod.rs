@@ -42,3 +42,5 @@ pub(crate) mod windows_msvc;
 pub(crate) mod windows_uwp_gnu;
 pub(crate) mod windows_uwp_msvc;
 pub(crate) mod xtensa;
+pub(crate) mod kernel;
+

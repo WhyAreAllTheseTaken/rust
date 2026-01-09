@@ -1801,6 +1801,8 @@ supported_targets! {
     ("x86_64-lynx-lynxos178", x86_64_lynx_lynxos178),
 
     ("x86_64-pc-cygwin", x86_64_pc_cygwin),
+
+    ("x86_64-unknown-kernel", x86_64_unknown_kernel),
 }
 
 /// Cow-Vec-Str: Cow<'static, [Cow<'static, str>]>
@@ -1996,6 +1998,7 @@ crate::target_spec_enum! {
         Windows = "windows",
         Xous = "xous",
         Zkvm = "zkvm",
+        Kernel = "kernel",
         Unknown = "unknown",
     }
     other_variant = Other;

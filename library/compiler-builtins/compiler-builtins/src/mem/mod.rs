@@ -10,6 +10,9 @@
 )]
 mod impls;
 
+#[cfg(target_os = "kernel")]
+mod kernel;
+
 intrinsics! {
     #[mem_builtin]
     pub unsafe extern "C" fn memcpy(dest: *mut u8, src: *const u8, n: usize) -> *mut u8 {

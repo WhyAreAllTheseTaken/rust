@@ -1,12 +1,13 @@
 use crate::ffi::{c_char, c_int};
 use crate::ptr;
+use crate::arch::asm;
 
-extern "C" {
+unsafe extern "C" {
     fn main(argc: c_int, argv: *const *const c_char) -> c_int;
 }
 
 #[unsafe(no_mangle)]
-#[used]
+#[allow(unused)]
 pub extern "C" fn _start() {
     unsafe {
         main(0, ptr::null());

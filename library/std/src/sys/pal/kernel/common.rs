@@ -1,4 +1,7 @@
-use crate::io as std_io;
+use kernel_call::SystemError;
+
+use crate::io::{self as std_io, ErrorKind};
+use super::os::exit;
 
 // SAFETY: must be called only once during runtime initialization.
 // NOTE: this is not guaranteed to run, for example when Rust code is called externally.
@@ -16,15 +19,49 @@ pub fn unsupported_err() -> std_io::Error {
     std_io::Error::UNSUPPORTED_PLATFORM
 }
 
-pub fn is_interrupted(_code: i32) -> bool {
-    false
+pub fn is_interrupted(error: SystemError) -> bool {
+    error == SystemError::Interrupted
 }
 
-pub fn decode_error_kind(_code: i32) -> crate::io::ErrorKind {
-    crate::io::ErrorKind::Uncategorized
+pub fn decode_error_kind(error: SystemError) -> ErrorKind {
+    match error {
+        SystemError::None => ErrorKind::Uncategorized,
+        SystemError::NotPermitted => ErrorKind::PermissionDenied,
+        SystemError::FileNotFound => ErrorKind::NotFound,
+        SystemError::ProcessNotFound => ErrorKind::NotFound,
+        SystemError::Interrupted => ErrorKind::Interrupted,
+        SystemError::IO => ErrorKind::Other,
+        SystemError::DeviceNotFound => ErrorKind::NotFound,
+        SystemError::TooManyArguments => ErrorKind::ArgumentListTooLong,
+        SystemError::InvalidExecutableFormat => ErrorKind::InvalidData,
+        SystemError::UnknownFileDescriptor => ErrorKind::InvalidInput,
+        SystemError::InsufficientMemory => ErrorKind::OutOfMemory,
+        SystemError::PermissionDenied => ErrorKind::PermissionDenied,
+        SystemError::BadAddress => ErrorKind::AddrNotAvailable,
+        SystemError::Busy => ErrorKind::ResourceBusy,
+        SystemError::FileAlreadyExists => ErrorKind::AlreadyExists,
+        SystemError::NotADirectory => ErrorKind::NotADirectory,
+        SystemError::IsADirectory => ErrorKind::IsADirectory,
+        SystemError::InvalidArgument => ErrorKind::InvalidInput,
+        SystemError::FileTooLarge => ErrorKind::FileTooLarge,
+        SystemError::NoSpace => ErrorKind::StorageFull,
+        SystemError::InvalidSeek => ErrorKind::InvalidInput,
+        SystemError::NotWritable => ErrorKind::ReadOnlyFilesystem,
+        SystemError::PipeClosed => ErrorKind::BrokenPipe,
+        SystemError::Deadlock => ErrorKind::Deadlock,
+        SystemError::InvalidRequestNumber => ErrorKind::InvalidInput,
+        SystemError::FileDeadlock => ErrorKind::Deadlock,
+        SystemError::Timeout => ErrorKind::TimedOut,
+        SystemError::NotEmpty => ErrorKind::DirectoryNotEmpty,
+        SystemError::PathTooLong => ErrorKind::InvalidFilename,
+        SystemError::NotSupported => ErrorKind::Unsupported,
+        SystemError::DataTooLong => ErrorKind::FileTooLarge,
+        SystemError::Cancelled => ErrorKind::ConnectionAborted,
+        _ => ErrorKind::Uncategorized
+    }
 }
 
 pub fn abort_internal() -> ! {
-    core::intrinsics::abort();
+    exit(-1)
 }
 

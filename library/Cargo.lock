@@ -145,6 +145,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "kernel_call"
+version = "0.1.0"
+dependencies = [
+ "rustc-std-workspace-core",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.178"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -330,6 +337,7 @@ dependencies = [
  "fortanix-sgx-abi",
  "hashbrown",
  "hermit-abi",
+ "kernel_call",
  "libc",
  "miniz_oxide",
  "moto-rt",

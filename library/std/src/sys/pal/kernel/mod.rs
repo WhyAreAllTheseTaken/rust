@@ -2,6 +2,7 @@
 
 pub mod os;
 pub mod time;
+pub mod io;
 
 mod start;
 mod common;

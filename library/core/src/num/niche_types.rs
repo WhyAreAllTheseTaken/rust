@@ -163,6 +163,11 @@ define_valid_range_type! {
     pub struct I64NotAllOnes(i64 as u64 in 0..=0xffff_ffff_ffff_fffe);
 }
 
+#[cfg(target_pointer_width = "64")]
+define_valid_range_type! {
+    pub struct USizeNotAllOnes(usize as usize in 0..=0xffff_ffff_ffff_fffe);
+}
+
 pub trait NotAllOnesHelper {
     type Type;
 }
@@ -178,6 +183,9 @@ impl NotAllOnesHelper for u64 {
 }
 impl NotAllOnesHelper for i64 {
     type Type = I64NotAllOnes;
+}
+impl NotAllOnesHelper for usize {
+    type Type = USizeNotAllOnes;
 }
 
 define_valid_range_type! {

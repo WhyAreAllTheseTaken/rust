@@ -45,6 +45,10 @@ cfg_select! {
         mod vexos;
         use vexos as imp;
     }
+    target_os = "kernel" => {
+        mod kernel;
+        use kernel as imp;
+    }
     _ => {
         mod unsupported;
         use unsupported as imp;

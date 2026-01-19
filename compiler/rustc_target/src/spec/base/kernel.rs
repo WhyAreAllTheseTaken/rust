@@ -1,4 +1,4 @@
-use crate::spec::{Cc, LinkerFlavor, Lld, Os, RelocModel, StackProbeType, TargetOptions, cvs};
+use crate::spec::{Cc, LinkSelfContainedDefault, LinkerFlavor, Lld, Os, RelocModel, StackProbeType, TargetOptions, cvs};
 
 pub(crate) fn opts() -> TargetOptions {
     TargetOptions {
@@ -7,6 +7,7 @@ pub(crate) fn opts() -> TargetOptions {
         linker_flavor: LinkerFlavor::Gnu(Cc::No, Lld::Yes),
         relocation_model: RelocModel::Static,
         stack_probes: StackProbeType::Inline,
+        link_self_contained: LinkSelfContainedDefault::True,
         ..Default::default()
     }
 }

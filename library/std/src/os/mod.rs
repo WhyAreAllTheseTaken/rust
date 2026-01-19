@@ -190,7 +190,8 @@ pub mod xous;
     target_os = "trusty",
     target_os = "wasi",
     target_os = "motor",
-    doc
+    doc,
+    target_os = "kernel"
 ))]
 pub mod fd;
 

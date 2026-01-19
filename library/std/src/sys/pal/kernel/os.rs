@@ -3,17 +3,24 @@ use crate::ffi::{OsStr, OsString};
 use crate::marker::PhantomData;
 use crate::path::{self, PathBuf};
 use crate::{fmt, io};
+use crate::arch::asm;
+use crate::env;
+use crate::string::ToString;
+use kernel_call::{SystemError, syscall_exit};
 
-pub fn errno() -> i32 {
-    0
+pub fn errno() -> SystemError {
+    SystemError::None
 }
 
-pub fn error_string(_errno: i32) -> String {
-    "operation successful".to_string()
+pub fn error_string(errno: SystemError) -> String {
+    errno.to_string()
 }
 
 pub fn getcwd() -> io::Result<PathBuf> {
-    unsupported()
+    match env::var("PWD") {
+        Ok(value) => Ok(PathBuf::from(value)),
+        Err(err) => Err(io::Error::new(io::ErrorKind::InvalidData, err))
+    }
 }
 
 pub fn chdir(_: &path::Path) -> io::Result<()> {
@@ -22,7 +29,7 @@ pub fn chdir(_: &path::Path) -> io::Result<()> {
 
 pub struct SplitPaths<'a>(!, PhantomData<&'a ()>);
 
-pub fn split_paths(_unparsed: &OsStr) -> SplitPaths<'_> {
+pub fn split_paths(unparsed: &OsStr) -> SplitPaths<'_> {
     panic!("unsupported")
 }
 
@@ -57,15 +64,17 @@ pub fn current_exe() -> io::Result<PathBuf> {
 }
 
 pub fn temp_dir() -> PathBuf {
-    panic!("no filesystem on this platform")
+    PathBuf::from(env::var("TEMP").unwrap_or_else(|_| "/tmp/".to_string()))
 }
 
 pub fn home_dir() -> Option<PathBuf> {
-    None
+    env::var("HOME").ok().map(PathBuf::from)
 }
 
-pub fn exit(_code: i32) -> ! {
-    crate::intrinsics::abort()
+pub fn exit(code: i32) -> ! {
+    unsafe {
+        syscall_exit(code as usize)
+    }
 }
 
 pub fn getpid() -> u32 {

@@ -416,6 +416,8 @@
 //
 #![default_lib_allocator]
 
+#![feature(str_as_str)]
+
 // The Rust prelude
 // The compiler expects the prelude definition to be defined before its use statement.
 pub mod prelude;

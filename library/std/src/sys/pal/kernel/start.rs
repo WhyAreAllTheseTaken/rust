@@ -1,6 +1,6 @@
 use crate::ffi::{c_char, c_int};
 use crate::ptr;
-use crate::arch::asm;
+use kernel_call::syscall_exit;
 
 unsafe extern "C" {
     fn main(argc: c_int, argv: *const *const c_char) -> c_int;
@@ -10,12 +10,8 @@ unsafe extern "C" {
 #[allow(unused)]
 pub extern "C" fn _start() {
     unsafe {
-        main(0, ptr::null());
+        super::init(0, ptr::null(), 0);
 
-        asm!(
-            "mov rax,0",
-            "int 0x81",
-            options(noreturn)
-        )
+        syscall_exit(main(0, ptr::null()) as usize)
     }
 }

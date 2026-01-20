@@ -10,13 +10,14 @@
     target_os = "uefi",
     target_os = "wasi",
     target_os = "xous",
+    target_os = "kernel"
 ))]
 mod common;
 
 cfg_select! {
     any(
         all(target_family = "unix", not(any(target_os = "espidf", target_os = "vita"))),
-        target_os = "hermit",
+        target_os = "hermit"
     ) => {
         mod unix;
         pub use unix::*;
@@ -52,6 +53,10 @@ cfg_select! {
     target_os = "zkvm" => {
         mod zkvm;
         pub use zkvm::*;
+    }
+    target_os = "kernel" => {
+        mod kernel;
+        pub use kernel::*;
     }
     _ => {
         mod unsupported;

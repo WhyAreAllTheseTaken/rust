@@ -1,5 +1,5 @@
 use kernel_call::{FileDescriptor, SystemError, UnionResult};
-use crate::{io::{self, ErrorKind}, sys::decode_error_kind};
+use crate::{io, sys::decode_error_kind};
 
 pub fn convert_syscall_result(result: UnionResult<usize>) -> Result<usize, io::Error> {
     let result: Result<usize, SystemError> = result.into();

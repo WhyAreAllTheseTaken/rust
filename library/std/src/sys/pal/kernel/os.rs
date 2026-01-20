@@ -3,7 +3,6 @@ use crate::ffi::{OsStr, OsString};
 use crate::marker::PhantomData;
 use crate::path::{self, PathBuf};
 use crate::{fmt, io};
-use crate::arch::asm;
 use crate::env;
 use crate::string::ToString;
 use kernel_call::{SystemError, syscall_exit};

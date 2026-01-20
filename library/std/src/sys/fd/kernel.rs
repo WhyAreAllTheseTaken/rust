@@ -116,7 +116,7 @@ impl FileDesc {
     #[inline]
     pub fn write(&self, buf: &[u8]) -> io::Result<usize> {
         unsafe {
-            convert_syscall_result(syscall_write(FileDescriptor::from(0), buf.as_ptr(), buf.len()))
+            convert_syscall_result(syscall_write(FileDescriptor::from(self.as_raw_fd()), buf.as_ptr(), buf.len()))
         }
     }
 

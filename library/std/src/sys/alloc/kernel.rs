@@ -14,17 +14,17 @@ static HEAP_USED: AtomicUsize = AtomicUsize::new(0);
 unsafe impl GlobalAlloc for System {
     #[inline]
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-        if layout.align() > 8 {
+        if layout.align() > 16 {
             return ptr::null_mut();
         }
-        let num_blocks = if layout.size() % 8 == 0 {
-            layout.size() / 8
+        let num_blocks = if layout.size() % 16 == 0 {
+            layout.size() / 16
         } else {
-            (layout.size() / 8) + 1
+            (layout.size() / 16) + 1
         };
-        HEAP_USED.fetch_add(num_blocks, Ordering::Relaxed);
-        let ptr = unsafe { ptr::addr_of_mut!(HEAP_DATA.0[HEAP_USED.load(Ordering::Relaxed) - num_blocks ]) as *mut u8 };
-        ptr
+        let index = HEAP_USED.fetch_add(num_blocks, Ordering::Relaxed) * 16;
+
+        unsafe { (&raw mut HEAP_DATA as *mut u8).offset(index as isize) }
     }
 
     #[inline]

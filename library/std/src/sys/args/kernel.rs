@@ -44,7 +44,10 @@ pub fn args() -> Args {
         // SAFETY: Just checked that the pointer is not NULL, and arguments
         // are otherwise guaranteed to be valid C strings.
         let cstr = unsafe { CStr::from_ptr(ptr) };
-        vec.push(OsString::from_str(cstr.to_str().expect("Argument is not valid UTF-8. This is guaranteed by the ABI.")).expect("Rust str is not valid OsString"));
+
+        let string = OsString::from_str(cstr.to_str().expect("Argument is not valid UTF-8. This is guaranteed by the ABI.")).expect("Rust str is not valid OsString");
+
+        vec.push(string);
     }
 
     Args::new(vec)

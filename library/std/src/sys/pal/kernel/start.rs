@@ -2,7 +2,7 @@ use core::arch::naked_asm;
 
 use crate::ffi::{c_char, c_int};
 use crate::ptr;
-use kernel_call::syscall_exit;
+use crate::sys::syscall::syscall_exit;
 
 unsafe extern "C" {
     fn main(argc: c_int, argv: *const *const c_char) -> c_int;

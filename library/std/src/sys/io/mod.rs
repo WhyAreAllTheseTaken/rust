@@ -58,6 +58,6 @@ pub const DEFAULT_BUF_SIZE: usize = if cfg!(target_os = "espidf") { 512 } else {
 
 pub type RawOsError = cfg_select! {
     target_os = "uefi" => usize,
-    target_os = "kernel" => kernel_call::SystemError,
+    target_os = "kernel" => crate::sys::syscall::error::SystemError,
     _ => i32,
 };

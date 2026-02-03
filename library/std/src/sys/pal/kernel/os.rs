@@ -2,10 +2,11 @@ use super::unsupported;
 use crate::ffi::{OsStr, OsString};
 use crate::marker::PhantomData;
 use crate::path::{self, PathBuf};
+use crate::sys::syscall::error::SystemError;
+use crate::sys::syscall::syscall_exit;
 use crate::{fmt, io};
 use crate::env;
 use crate::string::ToString;
-use kernel_call::{SystemError, syscall_exit};
 
 pub fn errno() -> SystemError {
     SystemError::None
@@ -71,9 +72,7 @@ pub fn home_dir() -> Option<PathBuf> {
 }
 
 pub fn exit(code: i32) -> ! {
-    unsafe {
-        syscall_exit(code as isize)
-    }
+    syscall_exit(code as isize)
 }
 
 pub fn getpid() -> u32 {

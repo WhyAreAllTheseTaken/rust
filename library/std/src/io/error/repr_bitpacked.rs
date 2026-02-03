@@ -249,7 +249,7 @@ where
     match bits & TAG_MASK {
         TAG_OS => {
             #[cfg(target_os = "kernel")]
-            let code: kernel_call::SystemError = (((bits as i64) >> 32) as isize).into();
+            let code: crate::sys::syscall::error::SystemError = (((bits as i64) >> 32) as isize).into();
             #[cfg(not(target_os = "kernel"))]
             let code = ((bits as i64) >> 32) as RawOsError;
             ErrorData::Os(code)

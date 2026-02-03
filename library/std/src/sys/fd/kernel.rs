@@ -1,10 +1,10 @@
 use core::io::BorrowedCursor;
 
-use kernel_call::{FileDescriptor, syscall_read, syscall_write};
-
 use crate::io::{self, IoSlice, IoSliceMut, Read, Write};
 use crate::os::fd::{AsFd, AsRawFd, BorrowedFd, IntoRawFd, OwnedFd, RawFd};
 use crate::sys::pal::io::convert_syscall_result;
+use crate::sys::syscall::file::FileDescriptor;
+use crate::sys::syscall::{syscall_read, syscall_write};
 use crate::sys::{FromInner, IntoInner};
 
 #[derive(Debug)]

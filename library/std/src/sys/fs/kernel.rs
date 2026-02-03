@@ -1,5 +1,3 @@
-use kernel_call::{OpenFlags, syscall_open, syscall_read};
-
 use crate::ffi::OsString;
 use crate::fmt;
 use crate::fs::TryLockError;
@@ -9,6 +7,8 @@ use crate::os::fd::{AsFd, AsRawFd, BorrowedFd, FromRawFd, OwnedFd, RawFd};
 use crate::path::{Path, PathBuf};
 pub use crate::sys::fs::common::Dir;
 use crate::sys::pal::io::{convert_syscall_desc_result, convert_syscall_result};
+use crate::sys::syscall::file::OpenFlags;
+use crate::sys::syscall::syscall_open;
 use crate::sys::time::SystemTime;
 use crate::sys::{IntoInner, unsupported};
 use crate::sys::FromInner;

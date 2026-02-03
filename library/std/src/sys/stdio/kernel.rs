@@ -1,8 +1,6 @@
 use core::mem::ManuallyDrop;
 
-use kernel_call::{FileDescriptor, SystemError, syscall_read, syscall_write};
-
-use crate::{io::{self, BorrowedCursor, ErrorKind, IoSlice, IoSliceMut}, os::fd::{FromRawFd, OwnedFd}, sys::{FromInner, fd::FileDesc, pal::io::convert_syscall_result, unsupported}};
+use crate::{io::{self, BorrowedCursor, IoSlice, IoSliceMut}, os::fd::{FromRawFd, OwnedFd}, sys::{FromInner, fd::FileDesc, syscall::error::SystemError}};
 
 pub struct Stdin;
 pub struct Stdout;

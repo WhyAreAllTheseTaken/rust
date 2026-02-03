@@ -1,6 +1,4 @@
-use kernel_call::SystemError;
-
-use crate::io::{self as std_io, ErrorKind};
+use crate::{io::{self as std_io, ErrorKind}, sys::syscall::error::SystemError};
 use super::os::exit;
 
 // SAFETY: must be called only once during runtime initialization.

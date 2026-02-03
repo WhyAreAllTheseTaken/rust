@@ -72,7 +72,7 @@ pub fn home_dir() -> Option<PathBuf> {
 
 pub fn exit(code: i32) -> ! {
     unsafe {
-        syscall_exit(code as usize)
+        syscall_exit(code as isize)
     }
 }
 

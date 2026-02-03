@@ -30,7 +30,7 @@ extern "C" fn _start2(argc: usize, argv: *const *const u8) {
 
         super::init(argc as isize, argv, 0);
 
-        syscall_exit(main(0, ptr::null()) as usize)
+        syscall_exit(main(0, ptr::null()) as isize)
     }
 }
 
